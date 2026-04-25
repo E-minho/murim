@@ -1,0 +1,135 @@
+/* RIGHT MUSIC PLAYER */
+.music-player {
+  position: fixed; right: 36px; top: 50%; transform: translateY(-50%); z-index: 50; width: 120px;
+  background: linear-gradient(180deg, var(--parchment-1) 0%, var(--parchment-2) 50%, var(--parchment-1) 100%);
+  padding: 14px 16px 18px; box-shadow: inset 0 0 30px rgba(0,0,0,.8), 0 10px 30px rgba(0,0,0,.8), inset 0 2px 0 rgba(255,255,255,.1);
+  border-left: 1px solid rgba(255,255,255,.05); border-right: 1px solid rgba(255,255,255,.05);
+}
+.music-player::before, .music-player::after {
+  content: ""; position: absolute; left: -8px; right: -8px; height: 14px;
+  background: linear-gradient(90deg, #1c1917 0%, #292524 10%, #c5a059 50%, #292524 90%, #1c1917 100%);
+  border-radius: 3px; box-shadow: 0 3px 6px rgba(0,0,0,.8), inset 0 1px 2px rgba(255,255,255,.2), inset 0 -1px 2px rgba(0,0,0,.8);
+}
+.music-player::before { top: -7px; }
+.music-player::after { bottom: -7px; }
+.track-dots { display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 12px 0; margin-bottom: 14px; border-bottom: 1px dashed rgba(255,255,255,.1); }
+.track-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #dfb668 0%, #c5a059 60%, #4a2e15 100%);
+  box-shadow: 0 2px 3px rgba(0,0,0,.8), inset 0 1px 1px rgba(255,255,255,.3);
+  cursor: pointer; transition: transform .2s, box-shadow .2s;
+}
+.track-dot:hover { transform: scale(1.2); }
+.track-dot.active { background: radial-gradient(circle at 35% 30%, #444 0%, #171513 60%, #000 100%); box-shadow: inset 0 1px 1px rgba(255,255,255,.2), 0 0 12px rgba(197,160,89,.3), 0 2px 3px rgba(0,0,0,.8); }
+.play-btn {
+  display: block; margin: 0 auto 16px; padding: 6px 14px; background: #1c1917; border: 2px solid var(--gold);
+  font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--gold);
+  cursor: pointer; letter-spacing: .1em; box-shadow: 2px 2px 0 var(--gold), inset 0 0 0 1px rgba(255,255,255,.1); transition: transform .1s;
+}
+.play-btn:active { transform: translate(2px,2px); box-shadow: 0 0 0 var(--gold); }
+.play-btn.playing::before { content: "PAUSE"; }
+.play-btn:not(.playing)::before { content: "PLAY"; }
+.sliders { display: flex; justify-content: center; gap: 18px; padding: 6px 0 4px; align-items: flex-end; }
+.slider-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.slider-track {
+  width: 6px; height: 120px; background: rgba(0,0,0,.3);
+  border: 1.5px solid var(--ink-mid); cursor: pointer; box-shadow: inset 0 2px 3px rgba(0,0,0,.5); position: relative;
+}
+.slider-fill { position: absolute; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, var(--vermilion) 0%, var(--vermilion-d) 100%); }
+.slider-thumb { position: absolute; left: 50%; transform: translate(-50%,50%); width: 16px; height: 6px; background: var(--gold); border: 1px solid var(--paper); }
+.slider-lbl { font-family: 'Ma Shan Zheng', serif; font-size: 13px; color: var(--ink-soft); letter-spacing: .08em; }
+.slider-lbl.sub { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: var(--ink-mid); letter-spacing: .15em; }
+
+/* MAIN CONTENT */
+main { margin-left: 220px; margin-right: 200px; position: relative; z-index: 5; }
+.chapter {
+  min-height: 100vh; padding: 120px 80px; position: relative;
+  display: flex; flex-direction: column; justify-content: center; scroll-margin-top: 0;
+}
+.chapter + .chapter { border-top: 1px solid rgba(255,255,255,.1); }
+.ch-head { display: flex; align-items: flex-end; gap: 40px; margin-bottom: 48px; padding-bottom: 28px; border-bottom: 2px solid var(--ink); position: relative; }
+.ch-head::after { content: ""; position: absolute; bottom: -7px; left: 0; width: 80px; height: 4px; background: var(--vermilion); }
+.ch-head .ch-idx { font-family: 'Ma Shan Zheng', serif; font-size: 140px; line-height: .85; color: var(--vermilion); letter-spacing: 0; flex-shrink: 0; }
+.ch-head .ch-meta { flex: 1; padding-bottom: 14px; }
+.ch-head .ch-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .5em; color: var(--ink-mid); text-transform: uppercase; margin-bottom: 12px; }
+.ch-head h2 { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 64px; line-height: 1.05; letter-spacing: -.01em; }
+.ch-head h2 .han { font-family: 'Ma Shan Zheng', serif; font-weight: 400; color: var(--vermilion); margin-left: 14px; }
+.ch-head .ch-sub { font-family: 'Ma Shan Zheng', serif; font-size: 22px; color: var(--ink-mid); margin-top: 10px; letter-spacing: .2em; }
+
+/* CHAPTER 1 : WORLD */
+.world-hero {
+  position: relative; aspect-ratio: 16 / 9;
+  background: url('/worldbanners.png') center/cover no-repeat #0c0b0a;
+  box-shadow: 0 30px 60px -30px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.1);
+  margin-bottom: 72px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden;
+}
+.world-hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,.7) 100%);
+}
+.world-hero-left { position: relative; }
+.world-hero-right { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 54px 56px; gap: 28px; }
+.world-hero-card {
+  background: rgba(12,11,10, .6); backdrop-filter: blur(10px) saturate(1.1); -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  padding: 40px 40px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1), 0 20px 50px -20px rgba(0,0,0,.5); color: var(--ink);
+}
+.world-quote { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 36px; line-height: 1.45; color: var(--ink); letter-spacing: -.01em; text-shadow: 0 2px 12px rgba(0,0,0,.9); }
+.world-quote em { color: var(--gold-soft); font-style: normal; font-weight: 900; }
+.world-quote-cite { margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .45em; color: var(--ink-mid); text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,.7); }
+.suhwa-card { background: rgba(0,0,0, .55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); padding: 22px 26px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); color: var(--ink-soft); }
+.suhwa-card .s-k { font-family: 'Ma Shan Zheng', serif; font-size: 20px; color: var(--gold-soft); letter-spacing: .1em; margin-bottom: 8px; }
+.suhwa-card .s-k .s-ko { font-family: 'Noto Serif KR', serif; font-size: 13px; color: var(--ink-soft); font-weight: 700; margin-left: 10px; letter-spacing: .15em; }
+.suhwa-card p { font-size: 13.5px; line-height: 1.85; color: var(--ink-soft); text-wrap: pretty; text-shadow: 0 1px 4px rgba(0,0,0,.8); }
+.suhwa-card p + p { margin-top: 8px; }
+.suhwa-card b { color: var(--gold-soft); font-weight: 700; }
+@media (max-width: 900px) {
+  main { margin-left: 0; margin-right: auto; margin-bottom: 60px; }
+  .world-hero { aspect-ratio: auto; grid-template-columns: 1fr; }
+  .world-hero-left { aspect-ratio: 16/9; }
+  .world-hero::after { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.8) 100%); }
+  .world-quote { font-size: 26px; }
+  .ch-head { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; margin-top: 20px; }
+  .ch-head .ch-idx { font-size: 80px; }
+  .ch-head h2 { font-size: 40px; }
+  .ch-head .ch-sub { font-size: 18px; margin-top: 6px; }
+  .chapter { padding: 50px 24px; }
+}
+@media (max-width: 768px) {
+  .world-hero-right { padding: 24px 16px; gap: 16px; }
+  .world-hero-card { padding: 20px; }
+  .world-quote { font-size: 22px; }
+  .suhwa-card { padding: 16px; }
+  .suhwa-card .s-k { font-size: 16px; }
+  .suhwa-card p { font-size: 12.5px; }
+  .synopsis { padding: 30px 16px; margin-top: 24px; }
+  .synopsis h3 { font-size: 20px; }
+  .synopsis .chap h4 { font-size: 16px; flex-wrap: wrap; }
+  .synopsis .chap h4 .cnum { font-size: 22px; }
+  .synopsis p { font-size: 14px; }
+  .ch-head .ch-idx { font-size: 50px; }
+  .ch-head h2 { font-size: 28px; }
+  .ch-head .ch-sub { font-size: 14px; margin-top: 4px; }
+  .chapter { padding: 40px 16px; }
+  .music-player {
+    display: flex; gap: 10px; top: 10px; right: 10px; left: auto; bottom: auto; width: auto; height: auto;
+    padding: 6px; flex-direction: row; align-items: center; justify-content: center; transform: none; min-width: 100px;
+    background: var(--parchment-1); box-shadow: 0 4px 10px rgba(0,0,0,.5); border-radius: 30px; border: 1px solid rgba(255,255,255,.1);
+  }
+  .music-player::before, .music-player::after { display: none; }
+  .track-dots, .sliders { display: none; }
+  .play-btn { margin: 0; padding: 8px 14px; border-radius: 20px; }
+}
+.synopsis { margin-top: 40px; background: var(--rice); padding: 56px 60px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 20px 50px -25px rgba(0,0,0,.8); position: relative; }
+.synopsis::before, .synopsis::after { content: ""; position: absolute; width: 20px; height: 20px; border: 1px solid var(--vermilion); }
+.synopsis::before { top: 14px; left: 14px; border-right: none; border-bottom: none; }
+.synopsis::after { bottom: 14px; right: 14px; border-left: none; border-top: none; }
+.synopsis .s-tag { font-family: 'Ma Shan Zheng', serif; font-size: 16px; color: var(--vermilion); letter-spacing: .5em; margin-bottom: 18px; }
+.synopsis h3 { font-size: 32px; font-weight: 900; margin-bottom: 22px; line-height: 1.3; }
+.synopsis .chap { margin-top: 34px; }
+.synopsis .chap:first-of-type { margin-top: 8px; }
+.synopsis .chap h4 { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 22px; color: var(--vermilion); margin-bottom: 12px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 12px; }
+.synopsis .chap h4 .cnum { font-family: 'Ma Shan Zheng', serif; font-size: 30px; color: var(--vermilion); letter-spacing: .05em; line-height: 1; }
+.synopsis .chap h4 .ck { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .4em; color: var(--ink-mid); margin-left: auto; text-transform: uppercase; }
+.synopsis p { font-size: 16px; line-height: 1.95; color: var(--ink-soft); margin-bottom: 14px; max-width: 880px; }
+.synopsis .sig { margin-top: 28px; display: flex; align-items: center; gap: 18px; font-family: 'Ma Shan Zheng', serif; font-size: 18px; color: var(--ink-mid); letter-spacing: .25em; }
+.synopsis .sig .seal-tiny { width: 44px; height: 44px; background: var(--vermilion); color: var(--paper); display: grid; place-items: center; font-size: 20px; transform: rotate(-4deg); box-shadow: 2px 2px 0px rgba(0,0,0,0.5); border-radius: 2px; }
