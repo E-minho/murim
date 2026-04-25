@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Vermilion seal background -->
+  <rect width="64" height="64" rx="8" fill="#8b1a1a"/>
+  <!-- Subtle inner border -->
+  <rect x="3" y="3" width="58" height="58" rx="6" fill="none" stroke="#3a0808" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- Bear paw, scaled to fit nicely with margin -->
+  <g transform="translate(32, 35) scale(0.78)" fill="#f5e9d0">
+    <!-- Pad -->
+    <path d="M 0,15 C -18,15 -22,-3 -12,-8 C -7,-11 -3,-7 0,-10 C 3,-7 7,-11 12,-8 C 22,-3 18,15 0,15 Z"/>
+    <!-- Toes -->
+    <ellipse cx="-19" cy="-12" rx="3.2" ry="5" transform="rotate(-40 -19 -12)"/>
+    <ellipse cx="-10" cy="-19" rx="3.8" ry="5.5" transform="rotate(-15 -10 -19)"/>
+    <ellipse cx="0"   cy="-22" rx="3.8" ry="6"/>
+    <ellipse cx="10"  cy="-19" rx="3.8" ry="5.5" transform="rotate(15 10 -19)"/>
+    <ellipse cx="19"  cy="-12" rx="3.2" ry="5" transform="rotate(40 19 -12)"/>
+  </g>
+</svg>
