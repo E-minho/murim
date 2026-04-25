@@ -168,3 +168,16 @@ body::after {
 }
 .scroll-rope { width: 140px; height: 38px; position: relative; }
 .scroll-rope svg { width: 100%; height: 100%; overflow: visible; }
+
+@media (max-width: 900px) {
+  .scroll-menu { width: 100%; height: 60px; top: auto; bottom: 0; flex-direction: row; z-index: 100; }
+  .scroll-menu-inner { flex-direction: row; padding: 0; justify-content: space-around; box-shadow: 0 -4px 10px rgba(0,0,0,0.5); border-top: 1px solid rgba(197,160,89,.2); }
+  .scroll-menu-inner::after { display: none; }
+  .scroll-menu-inner::before { opacity: 0.1; }
+  .scroll-cap-top, .scroll-cap-bot { display: none; }
+  .menu-item { font-size: 18px; flex: 1; padding: 0; letter-spacing: 0.05em; text-shadow: none; font-weight: 700; height: 100%; }
+  .menu-item .item-sub, .menu-item .idx-seal { display: none; }
+  .menu-item + .menu-item::after { display: none; }
+  .menu-item.active { text-shadow: 0 0 10px rgba(197,160,89,.4); }
+  .menu-item.active::before { inset: 10% 20%; background: rgba(197,160,89,.15); border-radius: 4px; }
+}
